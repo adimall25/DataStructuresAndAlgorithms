@@ -56,7 +56,9 @@ void _print(T t, V... v)
 #define tr(container, itr) for (typeof(container.begin()) itr = container.begin(); itr != container.end(); itr++)
 typedef long long ll;
 typedef vector<int> vi;
-typedef vector<long long> vii;
+typedef vector<long long> vl;
+typedef vector <vector <int>> vii;
+typedef vector <vector <long long>> vll;
 #define ALL(container) container.begin(), container.end()
 #define NL cout << "\n";
 #define pb push_back
@@ -96,7 +98,7 @@ int main(void)
 
     cout<<~1<<"\n";
     int tt = 1;
-    // cin >> tt;
+    cin >> tt;
     while (tt--)
     {
         
