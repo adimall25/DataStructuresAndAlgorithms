@@ -56,7 +56,9 @@ void _print(T t, V... v)
 #define tr(container, itr) for (typeof(container.begin()) itr = container.begin(); itr != container.end(); itr++)
 typedef long long ll;
 typedef vector<int> vi;
-typedef vector<long long> vii;
+typedef vector<long long> vl;
+typedef vector <vector <int>> vii;
+typedef vector <vector <long long>> vll;
 #define ALL(container) container.begin(), container.end()
 #define NL cout << "\n";
 #define pb push_back
@@ -86,20 +88,62 @@ ll pwr(ll a, ll b) {a %= MOD; ll res = 1; while (b > 0) {if (b & 1) res = res * 
 
 
 /*********************MAIN PROGRAM*************************/
+bool dfs(int node, int X, vii &adj, vi &a, vector <bool> &vis, vi &xorStore, int &edgesBroken)
+{
+    vis[node] = true;
+    xorStore[node] = a[node];
+    for(auto &child : adj[node])
+    {
+        if(!vis[child])
+        {
+            if(dfs(child, X, adj, a, vis, xorStore, edgesBroken))return true;
+            int xorChildTree = xorStore[child];
+            if(xorChildTree == X)edgesBroken++;
+            else xorStore[node] ^= xorChildTree;
+            if(edgesBroken == 2)return true;
+        }
+    }
+    return false;
+}
 
 int main(void)
 {
-    // #ifndef ONLINE_JUDGE
-    //     freopen("../../input.txt", "r", stdin);
-    //     freopen("../../output.txt", "w", stdout);
-    // #endif
+    #ifndef ONLINE_JUDGE
+        freopen("../../../../input.txt", "r", stdin);
+        freopen("../../../../output.txt", "w", stdout);
+    #endif
 
-    cout<<~1<<"\n";
     int tt = 1;
-    // cin >> tt;
+    cin >> tt;
     while (tt--)
     {
-        
+        int n, k; 
+        cin>>n>>k;
+        int X = 0;
+        vi a(n + 1);
+        for(int i = 1; i <= n; i++)cin>>a[i], X ^= a[i];
+        vii adj(n + 1);
+        for(int i = 0; i < n - 1; i++)
+        {
+            int u,v;
+            cin>>u>>v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        if(X == 0)cout<<"YES\n";
+        else 
+        {
+            if(k == 2)cout<<"NO\n";
+            else 
+            {
+                vi xorStore(n + 1, 0);
+                int edgesBroken = 0;
+                vector <bool> vis(n + 1, false);
+                bool ok = dfs(1, X, adj, a, vis, xorStore, edgesBroken);
+                if(ok)cout<<"YES\n";
+                else cout<<"NO\n";
+            }
+        }
     }
     return 0;
 }

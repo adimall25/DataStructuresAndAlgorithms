@@ -96,7 +96,6 @@ int main(void)
         freopen("../../../../output.txt", "w", stdout);
     #endif
 
-    cout<<~1<<"\n";
     int tt = 1;
     cin >> tt;
     while (tt--)
